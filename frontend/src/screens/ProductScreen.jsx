@@ -1,13 +1,24 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import {Link} from "react-router-dom"
 import {Row, Col, Image, ListGroup, Button, Card} from "react-bootstrap"
 import Rating from '../components/Rating'
-import products from "../data/products"
+import axios from "axios"
+// import products from "../data/products"
 
-function ProductScreen({match}){
+function ProductScreen({}){
   
   let paramId = window.location['href'].split("/").at(-1)
-  const product = products.find((p) => p.id ==paramId)
+  // const product = products.find((p) => p.id ==paramId)
+
+  const [product, setProduct] = useState([])
+    useEffect(() => {
+        async function getProduct(){
+            const { data } = await axios.get(`/products/${paramId}/`)
+            setProduct(data)
+        }
+        getProduct()
+    },[])
+
   return(
       
       <div>
